@@ -59,6 +59,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // スムーススクロールの設定
     setupSmoothScroll();
+    
+    // Lazy Loading実装
+    setupLazyLoading();
 });
 
 /**
@@ -274,6 +277,14 @@ function setupVideoPlayer() {
         if (thumbnail) {
             thumbnail.remove();
             playButton.remove();
+            
+            // GTMイベントを発火（ビデオ再生トラッキング用）
+            if (window.dataLayer) {
+                window.dataLayer.push({
+                    'event': 'video_play',
+                    'video_title': 'MYスキー場紹介動画'
+                });
+            }
             
             // iframeでYouTube動画を埋め込む（実際のYouTube IDに置き換える）
             const iframe = document.createElement('iframe');
@@ -575,3 +586,87 @@ document.addEventListener('DOMContentLoaded', function() {
         observer.observe(counter);
     });
 });
+
+/**
+ * Lazy Loading実装
+ * セクションや画像を表示領域に入ったときに読み込む
+ */
+document.addEventListener('DOMContentLoaded', function() {
+    // Lazy Load設定を実行
+    setupLazyLoading();
+});
+
+/**
+ * Lazy Loading機能の設定
+ */
+function setupLazyLoading() {
+    // すでに設定済みであれば処理しない
+    if (window.lazyLoadingInitialized) return;
+    window.lazyLoadingInitialized = true;
+    
+    console.log('Lazy Loading: 初期化');
+    
+    // 画像のLazy Load
+    const lazyImages = document.querySelectorAll('.lazy-image');
+    
+    // セクションのLazy Load
+    const lazySections = document.querySelectorAll('.lazy-section');
+    
+    // Intersection Observerの設定
+    const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const img = entry.target;
+                if (img.dataset.src) {
+                    console.log('Lazy loading image:', img.dataset.src);
+                    img.src = img.dataset.src;
+                    img.classList.add('loaded');
+                    
+                    // GTMにイベント送信
+                    if (window.dataLayer) {
+                        window.dataLayer.push({
+                            'event': 'image_loaded',
+                            'image_src': img.dataset.src
+                        });
+                    }
+                    
+                    observer.unobserve(img);
+                }
+            }
+        });
+    }, { rootMargin: '200px 0px' }); // 画面の200px手前から先読み
+    
+    // セクション用のObserver
+    const sectionObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const section = entry.target;
+                const sectionId = section.id || 'unnamed-section';
+                console.log('Loading section:', sectionId);
+                section.classList.add('visible');
+                
+                // GTMにセクション表示イベント送信
+                if (window.dataLayer) {
+                    window.dataLayer.push({
+                        'event': 'section_visible',
+                        'section_id': sectionId
+                    });
+                }
+                
+                observer.unobserve(section);
+            }
+        });
+    }, { threshold: 0.1 }); // 10%以上表示されたらロード
+    
+    console.log(`Lazy Loading: ${lazyImages.length}個の画像と${lazySections.length}個のセクションを監視`);
+    
+    // 画像にObserverを適用
+    lazyImages.forEach(image => {
+        imageObserver.observe(image);
+    });
+    
+    // セクションにObserverを適用
+    lazySections.forEach(section => {
+        sectionObserver.observe(section);
+    });
+}
