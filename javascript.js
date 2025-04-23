@@ -3,8 +3,37 @@
  * 動的な機能とインタラクションを提供します
  */
 
+// イントロアニメーションの処理
+function handleIntroAnimation() {
+    const introAnimation = document.getElementById('intro-animation');
+    const mainContent = document.getElementById('main-content');
+    
+    if (!introAnimation || !mainContent) return;
+    
+    // メインコンテンツを最初は非表示に
+    mainContent.style.opacity = '0';
+    
+    // 3秒後にイントロアニメーションをフェードアウト
+    setTimeout(() => {
+        introAnimation.classList.add('fade-out');
+        
+        // イントロが消えた後にメインコンテンツをフェードイン
+        setTimeout(() => {
+            mainContent.classList.add('fade-in');
+            
+            // アニメーション完了後にイントロ要素を完全に削除（任意）
+            setTimeout(() => {
+                introAnimation.style.display = 'none';
+            }, 1000);
+        }, 500);
+    }, 3000);
+}
+
 // DOMが完全に読み込まれた後に実行
 document.addEventListener('DOMContentLoaded', function() {
+    // イントロアニメーションの処理を実行
+    handleIntroAnimation();
+    
     // ヘッダーのスクロール処理
     handleHeaderScroll();
     
@@ -248,10 +277,12 @@ function setupVideoPlayer() {
             const iframe = document.createElement('iframe');
             iframe.width = '100%';
             iframe.height = '500px';
-            iframe.src = 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1';
+            iframe.src = 'https://www.youtube.com/embed/YOUR_VIDEO_ID?autoplay=1&enablejsapi=1';
             iframe.frameBorder = '0';
             iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
             iframe.allowFullscreen = true;
+            iframe.setAttribute('data-video-title', 'MYスキー場紹介動画');
+            iframe.setAttribute('data-video-url', 'https://www.youtube.com/embed/YOUR_VIDEO_ID');
             
             videoContainer.appendChild(iframe);
         }
