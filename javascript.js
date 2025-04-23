@@ -8,21 +8,23 @@ function handleIntroAnimation() {
     const introAnimation = document.getElementById('intro-animation');
     const mainContent = document.getElementById('main-content');
     
-    if (!introAnimation || !mainContent) return;
+    console.log('イントロアニメーション初期化:', introAnimation ? 'イントロ要素あり' : 'イントロ要素なし', mainContent ? 'メインコンテンツあり' : 'メインコンテンツなし');
     
-    // メインコンテンツを最初は非表示に
-    mainContent.style.opacity = '0';
+    if (!introAnimation || !mainContent) return;
     
     // 3秒後にイントロアニメーションをフェードアウト
     setTimeout(() => {
+        console.log('イントロアニメーション: フェードアウト開始');
         introAnimation.classList.add('fade-out');
         
         // イントロが消えた後にメインコンテンツをフェードイン
         setTimeout(() => {
+            console.log('メインコンテンツ: フェードイン開始');
             mainContent.classList.add('fade-in');
             
-            // アニメーション完了後にイントロ要素を完全に削除（任意）
+            // アニメーション完了後にイントロ要素を完全に削除
             setTimeout(() => {
+                console.log('イントロアニメーション: 完全に非表示');
                 introAnimation.style.display = 'none';
             }, 1000);
         }, 500);
