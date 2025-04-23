@@ -3,10 +3,18 @@
  * 動的な機能とインタラクションを提供します
  */
 
+// イントロアニメーションの処理（無効化）
+function handleIntroAnimation() {
+    // イントロアニメーションを無効化
+    console.log('イントロアニメーション: 無効化されました');
+    
+    // メインコンテンツは最初から表示されるため、追加の処理は不要
+    return;
+}
 
 // DOMが完全に読み込まれた後に実行
 document.addEventListener('DOMContentLoaded', function() {
-    // イントロアニメーションの処理を実行
+    // イントロアニメーションの処理は呼び出すが内部処理はスキップ
     handleIntroAnimation();
     
     // ヘッダーのスクロール処理
