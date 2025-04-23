@@ -3,33 +3,6 @@
  * 動的な機能とインタラクションを提供します
  */
 
-// イントロアニメーションの処理
-function handleIntroAnimation() {
-    const introAnimation = document.getElementById('intro-animation');
-    const mainContent = document.getElementById('main-content');
-    
-    console.log('イントロアニメーション初期化:', introAnimation ? 'イントロ要素あり' : 'イントロ要素なし', mainContent ? 'メインコンテンツあり' : 'メインコンテンツなし');
-    
-    if (!introAnimation || !mainContent) return;
-    
-    // 3秒後にイントロアニメーションをフェードアウト
-    setTimeout(() => {
-        console.log('イントロアニメーション: フェードアウト開始');
-        introAnimation.classList.add('fade-out');
-        
-        // イントロが消えた後にメインコンテンツをフェードイン
-        setTimeout(() => {
-            console.log('メインコンテンツ: フェードイン開始');
-            mainContent.classList.add('fade-in');
-            
-            // アニメーション完了後にイントロ要素を完全に削除
-            setTimeout(() => {
-                console.log('イントロアニメーション: 完全に非表示');
-                introAnimation.style.display = 'none';
-            }, 1000);
-        }, 500);
-    }, 3000);
-}
 
 // DOMが完全に読み込まれた後に実行
 document.addEventListener('DOMContentLoaded', function() {
