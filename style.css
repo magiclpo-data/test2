@@ -1494,12 +1494,14 @@ ul, ol {
     }
 }
 
-/* メインコンテンツ初期非表示 */
+/* メインコンテンツ初期非表示と表示切り替え */
 .main-content {
     opacity: 0;
-    transition: opacity 1s ease-in-out;
+    visibility: hidden;
+    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
 }
 
 .main-content.fade-in {
     opacity: 1;
+    visibility: visible;
 }
