@@ -209,7 +209,7 @@ ul, ol {
    メインビジュアルのスタイル
    ==================== */
 .main-visual {
-    height: 100vh;
+    height: 100vw;
     background-image: url('images/zao-main-visual.jpg');
     background-size: cover;
     background-position: center;
@@ -228,7 +228,7 @@ ul, ol {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100%;
+    height: 100vw;
     background: linear-gradient(to bottom, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3));
     z-index: 1;
 }
@@ -1452,58 +1452,22 @@ ul, ol {
     }
 }
 
-/* イントロアニメーション */
-.intro-animation {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 9999;
+/* メインコンテンツ表示設定（イントロアニメーション削除対応） */
+.main-content {
     opacity: 1;
-    transition: opacity 1s ease-in-out;
+    visibility: visible;
 }
 
-.intro-animation.fade-out {
+/* イントロアニメーション用スタイルは念のため残しておくが、
+   不要であれば将来的に削除してもよい */
+.intro-animation {
+    display: none; /* 完全に非表示にする */
     opacity: 0;
-    pointer-events: none;
+    visibility: hidden;
 }
 
 .intro-text {
-    color: #fff;
-    font-size: 5rem;
-    font-weight: 900;
-    font-family: 'Noto Sans JP', sans-serif;
-    opacity: 0;
-    transform: translateY(20px);
-    animation: fadeInUp 1s ease-out forwards 0.5s;
-}
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(20px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-}
-
-/* メインコンテンツ初期非表示と表示切り替え */
-.main-content {
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 1s ease-in-out, visibility 1s ease-in-out;
-}
-
-.main-content.fade-in {
-    opacity: 1;
-    visibility: visible;
+    display: none;
 }
 
 /* Lazy Loading用のスタイル */
